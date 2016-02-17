@@ -1,0 +1,28 @@
+﻿<Window x:Class="osu_CollectionManager.BeatmapSelect"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Input Beatmap" Height="500" Width="500" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
+    <Grid Margin="15,0,15,15">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Label x:Name="TextLabel" Content="Select beatmaps:" Margin="0,0,0,100" VerticalAlignment="Bottom"/>
+        <ListBox x:Name="BeatmapList" Height="100" VerticalAlignment="Bottom" ItemsSource="{Binding list}" IsSynchronizedWithCurrentItem="True">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <CheckBox Content="{Binding version}" IsChecked="{Binding ischecked}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <WrapPanel Margin="0,15,0,0" Grid.Row="1" HorizontalAlignment="Right">
+            <Button Content="Ok" MinWidth="75" Margin="0,0,10,0" IsDefault="True" Click="Button_Click"/>
+            <Button Content="Cancel" MinWidth="75" IsCancel="True"/>
+        </WrapPanel>
+    </Grid>
+</Window>

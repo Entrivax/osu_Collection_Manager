@@ -1,0 +1,121 @@
+﻿<Window x:Class="osu_CollectionManager.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="osu! Collection Manager" Height="350" Width="525" Initialized="Window_Initialized">
+    <Grid x:Name="GlobalGrid">
+        <Menu VerticalAlignment="Top">
+            <MenuItem Header="File" SubmenuOpened="File_SubmenuOpened">
+                <MenuItem x:Name="SaveMenuItem" Header="Save" Click="Save_Click"/>
+                <MenuItem x:Name="SaveAsMenuItem" Header="Save As..." Click="SaveAs_Click"/>
+            </MenuItem>
+        </Menu>
+        <TabControl x:Name="Tabs" Margin="0,18,0,26" SelectedIndex="1">
+            <TabItem Header="Collections">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <ListBox x:Name="CollectionList" SelectionChanged="CollectionList_SelectionChanged" ContextMenuOpening="CollectionList_ContextMenuOpening">
+                        <ListBox.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem x:Name="RenameCollectionItem" Header="Rename collection" Click="RenameCollectionItem_Click"/>
+                                <MenuItem x:Name="AddCollectionItem" Header="Add collection" Click="AddCollectionItem_Click"/>
+                                <MenuItem x:Name="DeleteCollectionItem" Header="Delete collection" Click="DeleteCollectionItem_Click"/>
+                            </ContextMenu>
+                        </ListBox.ContextMenu>
+                    </ListBox>
+                    <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" />
+                    <DataGrid x:Name="BeatmapList" Grid.Row="2" ItemsSource="{Binding beatmaps}" SelectionMode="Single" AutoGenerateColumns="False" IsSynchronizedWithCurrentItem="True" CanUserAddRows="False" IsReadOnly="True" ContextMenuOpening="BeatmapList_ContextMenuOpening">
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem x:Name="AddBeatmapItem" Header="Add beatmap" Click="AddBeatmapItem_Click"/>
+                                <MenuItem x:Name="DeleteBeatmapItem" Header="Delete beatmap" Click="DeleteBeatmapItem_Click"/>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding artist}" Header="Artist">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="Foreground" Value="{Binding Fcolor}"></Setter>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding title}" Header="Title">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="Foreground" Value="{Binding Fcolor}"></Setter>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding creator}" Header="Creator">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="Foreground" Value="{Binding Fcolor}"></Setter>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding version}" Header="Difficulty">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="Foreground" Value="{Binding Fcolor}"></Setter>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding diff_approach}" Header="AR">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="Foreground" Value="{Binding Fcolor}"></Setter>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding diff_overall}" Header="OD">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="Foreground" Value="{Binding Fcolor}"></Setter>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding diff_drain}" Header="HP">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="Foreground" Value="{Binding Fcolor}"></Setter>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding diff_size}" Header="CS">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="Foreground" Value="{Binding Fcolor}"></Setter>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Settings">
+                <Grid Background="#FFE5E5E5">
+                    <TextBox x:Name="OsuTextBox" Height="23" Margin="92,10,10,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                    <Label Content="osu! folder" HorizontalAlignment="Left" Margin="10,6,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Songs folder" HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="SongsTextBox" Height="23" Margin="92,38,10,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                    <Button x:Name="ApplyButton" Content="Apply Changes" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="100" Click="ApplyButton_Click"/>
+                    <Button x:Name="BeginButton" Content="Begin" HorizontalAlignment="Right" Margin="0,0,115,10" VerticalAlignment="Bottom" Width="100" Click="BeginButton_Click"/>
+                    <Button x:Name="DownloadButton" Content="Download missing beatmaps" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="175" Click="DownloadButton_Click"/>
+                    <Label Content="osu! API key" HorizontalAlignment="Left" Margin="10,63,0,0" VerticalAlignment="Top"/>
+                    <PasswordBox x:Name="APIKeyBox" Height="23" Margin="92,66,10,0" VerticalAlignment="Top"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="About">
+                <Grid Background="#FFE5E5E5">
+                    <Label Content="osu! Collection Manager by Entrivax" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                    <Label x:Name="VersionLabel" Content="Version " HorizontalAlignment="Left" Margin="10,28,0,0" VerticalAlignment="Top"/>
+                    <Label Content="osu! belongs to Dean Herbert (peppy)" HorizontalAlignment="Left" Margin="10,46,0,0" VerticalAlignment="Top"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <Label x:Name="StatusLabel" Content="" Height="26" VerticalAlignment="Bottom"/>
+    </Grid>
+</Window>
